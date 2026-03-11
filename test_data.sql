@@ -38,9 +38,20 @@ INSERT INTO Services (name, code, description, department, price, processing_day
 ('Получение загранпаспорта', 'FOREIGN_PASSPORT', 'Оформление заграничного паспорта нового поколения', 'МВД РФ', 3500.00, 30),
 ('Регистрация автомобиля', 'CAR_REGISTRATION', 'Постановка автомобиля на учет в ГИБДД', 'ГИБДД', 2850.00, 5);
 
+-- 6. Заявления (Applications)
+INSERT INTO Applications (user_id, services_id, status, form_data) VALUES
+(1, 1, 'completed', '{"reason": "Достижение 45 лет", "old_passport": "1234 567890"}'),
+(1, 2, 'processing', '{"address": "г. Москва, ул. Новая, д. 10, кв. 5"}'),
+(2, 3, 'pending', '{"passport_type": "biometric", "validity": "10 years"}'),
+(3, 4, 'processing', '{"car_model": "Toyota Camry", "year": 2020, "vin": "JTDBE32K123456789"}');
+
+-- обновляем номера заявлений (сработает триггер)
+UPDATE Applications SET id = id WHERE id = id;
+
 -- Проверочные запросы (закомментированы)
 -- SELECT * FROM Users;
 -- SELECT * FROM UserProfiles;
 -- SELECT * FROM Roles;
 -- SELECT * FROM UserRoles;
 -- SELECT * FROM Services;
+-- SELECT * FROM Applications;

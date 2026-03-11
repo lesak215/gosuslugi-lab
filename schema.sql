@@ -54,3 +54,33 @@ CREATE TABLE Services (
     processing_days INTEGER CHECK (processing_days > 0),
     is_available BOOLEAN DEFAULT true
 );
+
+-- таблица заявлений 
+CREATE TABLE Applications (
+    id SERIAL PRIMARY KEY,
+    application_number VARCHAR(20) UNIQUE,  -- публичный номер заявления
+    user_id INTEGER NOT NULL REFERENCES Users(id),
+    services_id INTEGER NOT NULL REFERENCES Services(id),
+    status VARCHAR(20) DEFAULT 'pending' 
+        CHECK (status IN ('pending', 'processing', 'completed', 'rejected', 'cancelled')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    form_data JSONB,  -- данные формы в свободном формате
+    rejection_reason TEXT
+);
+
+-- функция генерации номера заявления
+CREATE OR REPLACE FUNCTION generate_application_number()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.application_number = 'GSU-' || TO_CHAR(NOW(), 'YYYYMMDD') || '-' || LPAD(NEW.id::TEXT, 6, '0');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- триггер, автоматически вызывает функцию при вставке
+CREATE TRIGGER trg_generate_application_number
+    BEFORE INSERT ON Applications
+    FOR EACH ROW
+    EXECUTE FUNCTION generate_application_number();
