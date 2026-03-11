@@ -33,3 +33,12 @@ CREATE TABLE Roles (
     name VARCHAR(50) UNIQUE NOT NULL,
     description TEXT
 );
+
+-- таблица связи пользователей и ролей 
+CREATE TABLE UserRoles (
+    user_id INTEGER REFERENCES Users(id) ON DELETE CASCADE,  
+    role_id INTEGER REFERENCES Roles(id) ON DELETE CASCADE,  
+    assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,         
+    assigned_by INTEGER REFERENCES Users(id),                
+    PRIMARY KEY (user_id, role_id)                           
+);
