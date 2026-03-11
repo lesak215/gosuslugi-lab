@@ -1,5 +1,3 @@
--- Лабораторная работа 1 - ГосУслуги
--- Шаг 1-6: Таблицы Users и UserProfiles
 
 -- таблица пользователей
 CREATE TABLE Users (
@@ -27,4 +25,11 @@ CREATE TABLE UserProfiles (
     passport_series VARCHAR(4),
     passport_number VARCHAR(6),
     registration_address TEXT
+);
+
+-- таблица ролей
+CREATE TABLE Roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT
 );
