@@ -27,9 +27,9 @@ INSERT INTO Roles (name, description) VALUES
 
 -- 4. Назначение ролей пользователям (UserRoles)
 INSERT INTO UserRoles (user_id, role_id, assigned_by) VALUES
-(1, 1, 1),  -- Иванов (id=1) получает роль Гражданин (id=1), назначил сам себя
-(2, 2, 1),  -- Петров (id=2) получает роль Сотрудник (id=2), назначил Иванов (id=1)
-(3, 3, 1);  -- Сидоров (id=3) получает роль Администратор (id=3), назначил Иванов (id=1)
+(1, 1, 3),  
+(2, 2, 3),  
+(3, 3, 3);  
 
 -- 5. Услуги (Services)
 INSERT INTO Services (name, code, description, department, price, processing_days) VALUES
