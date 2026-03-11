@@ -84,3 +84,33 @@ CREATE TRIGGER trg_generate_application_number
     BEFORE INSERT ON Applications
     FOR EACH ROW
     EXECUTE FUNCTION generate_application_number();
+
+-- таблица истории статусов
+CREATE TABLE ApplicationHistory (
+    id SERIAL PRIMARY KEY,
+    application_id INTEGER NOT NULL REFERENCES Applications(id) ON DELETE CASCADE,
+    status VARCHAR(20) NOT NULL CHECK (status IN ('pending', 'processing', 'completed', 'rejected', 'cancelled')),
+    changed_by INTEGER REFERENCES Users(id),
+    comment TEXT,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- индексы для ускорения
+CREATE INDEX idx_applications_status ON Applications(status);
+CREATE INDEX idx_applications_user_id ON Applications(user_id);
+CREATE INDEX idx_application_history_app_id ON ApplicationHistory(application_id);
+
+-- представление для удобного просмотра заявлений
+CREATE VIEW vApplicationsDetails AS
+SELECT 
+    a.application_number,
+    u.username AS user_login,
+    up.last_name || ' ' || up.first_name AS user_name,
+    s.name AS services_name,
+    a.status,
+    a.created_at,
+    a.completed_at
+FROM Applications a
+JOIN Users u ON a.user_id = u.id
+JOIN UserProfiles up ON u.id = up.user_id
+JOIN Services s ON a.services_id = s.id;

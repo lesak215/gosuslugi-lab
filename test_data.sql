@@ -38,6 +38,9 @@ INSERT INTO Services (name, code, description, department, price, processing_day
 ('Получение загранпаспорта', 'FOREIGN_PASSPORT', 'Оформление заграничного паспорта нового поколения', 'МВД РФ', 3500.00, 30),
 ('Регистрация автомобиля', 'CAR_REGISTRATION', 'Постановка автомобиля на учет в ГИБДД', 'ГИБДД', 2850.00, 5);
 
+-- обновляем номера заявлений (сработает триггер)
+UPDATE Applications SET id = id WHERE id = id;
+
 -- 6. Заявления (Applications)
 INSERT INTO Applications (user_id, services_id, status, form_data) VALUES
 (1, 1, 'completed', '{"reason": "Достижение 45 лет", "old_passport": "1234 567890"}'),
@@ -45,8 +48,14 @@ INSERT INTO Applications (user_id, services_id, status, form_data) VALUES
 (2, 3, 'pending', '{"passport_type": "biometric", "validity": "10 years"}'),
 (3, 4, 'processing', '{"car_model": "Toyota Camry", "year": 2020, "vin": "JTDBE32K123456789"}');
 
--- обновляем номера заявлений (сработает триггер)
-UPDATE Applications SET id = id WHERE id = id;
+-- 7. История для заявлений (ApplicationHistory)
+INSERT INTO ApplicationHistory (application_id, status, changed_by, comment) VALUES
+(1, 'pending', 3, 'Заявление подано'),
+(1, 'processing', 2, 'Принято в обработку сотрудником'),
+(1, 'completed', 2, 'Услуга оказана успешно'),
+(2, 'pending', 1, 'Заявление подано'),
+(2, 'processing', 2, 'В обработке'),
+(3, 'pending', 2, 'Ожидает проверки документов');
 
 -- Проверочные запросы (закомментированы)
 -- SELECT * FROM Users;
@@ -55,3 +64,4 @@ UPDATE Applications SET id = id WHERE id = id;
 -- SELECT * FROM UserRoles;
 -- SELECT * FROM Services;
 -- SELECT * FROM Applications;
+-- SELECT * FROM vApplicationsDetails;
