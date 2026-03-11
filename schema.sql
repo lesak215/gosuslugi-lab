@@ -42,3 +42,15 @@ CREATE TABLE UserRoles (
     assigned_by INTEGER REFERENCES Users(id),                
     PRIMARY KEY (user_id, role_id)                           
 );
+
+-- таблица с каталогом услуг
+CREATE TABLE Services (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT,
+    department VARCHAR(200),
+    price DECIMAL(10, 2) DEFAULT 0 CHECK (price >= 0),
+    processing_days INTEGER CHECK (processing_days > 0),
+    is_available BOOLEAN DEFAULT true
+);

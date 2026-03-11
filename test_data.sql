@@ -31,8 +31,16 @@ INSERT INTO UserRoles (user_id, role_id, assigned_by) VALUES
 (2, 2, 1),  -- Петров (id=2) получает роль Сотрудник (id=2), назначил Иванов (id=1)
 (3, 3, 1);  -- Сидоров (id=3) получает роль Администратор (id=3), назначил Иванов (id=1)
 
+-- 5. Услуги (Services)
+INSERT INTO Services (name, code, description, department, price, processing_days) VALUES
+('Замена паспорта РФ', 'PASSPORT_CHANGE', 'Замена паспорта по достижении 20 или 45 лет, при смене фамилии или утере', 'МВД РФ', 300.00, 10),
+('Регистрация по месту жительства', 'REGISTRATION', 'Регистрация гражданина по месту жительства (прописка)', 'МВД РФ', 0.00, 3),
+('Получение загранпаспорта', 'FOREIGN_PASSPORT', 'Оформление заграничного паспорта нового поколения', 'МВД РФ', 3500.00, 30),
+('Регистрация автомобиля', 'CAR_REGISTRATION', 'Постановка автомобиля на учет в ГИБДД', 'ГИБДД', 2850.00, 5);
+
 -- Проверочные запросы (закомментированы)
 -- SELECT * FROM Users;
 -- SELECT * FROM UserProfiles;
 -- SELECT * FROM Roles;
 -- SELECT * FROM UserRoles;
+-- SELECT * FROM Services;
